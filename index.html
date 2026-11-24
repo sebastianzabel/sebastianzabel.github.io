@@ -196,6 +196,8 @@
   .log-entry .when { font-size: 12px; color: var(--acc); text-transform: uppercase; letter-spacing: .08em; padding-top: 4px; }
   .log-entry h3 { font-family: var(--sans); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
   .log-entry .org { font-size: 13px; color: var(--cyan); margin: 4px 0 10px; }
+  .log-entry.past .when { color: var(--fg-3); }
+  .log-entry.past h3 { color: var(--fg-2); }
   .log-entry p { font-family: var(--sans); color: var(--fg-2); font-size: 15px; max-width: 64ch; }
   @media (max-width: 700px) { .log-entry { grid-template-columns: 1fr; gap: 6px; } }
 
@@ -255,11 +257,12 @@
       <h1 aria-label="Sebastian Zabel"><span class="l1" data-scramble>Sebastian</span><span class="l2" data-scramble>Zabel<span class="cursor"></span></span></h1>
       <div class="hero-grid">
         <div>
-          <p class="lede" lang="de">Platform Engineer. Ich baue Infrastruktur, die sich selbst beschreibt — <strong>Kubernetes, Infrastructure as Code, GitOps</strong> — und Software, die echte Probleme kleiner Betriebe löst.</p>
-          <p class="lede" lang="en">Platform engineer. I build infrastructure that describes itself — <strong>Kubernetes, infrastructure as code, GitOps</strong> — and software that solves real problems for small businesses.</p>
+          <p class="lede" lang="de">Platform Engineer. Ich baue und betreibe die Infrastruktur, auf der andere entwickeln — <strong>Kubernetes, GitOps, Observability</strong> und zunehmend <strong>KI-Plattformen</strong>.</p>
+          <p class="lede" lang="en">Platform engineer. I build and run the infrastructure other developers work on — <strong>Kubernetes, GitOps, observability</strong> and, more and more, <strong>AI platforms</strong>.</p>
         </div>
         <div class="cta">
           <a class="btn primary" href="#projects"><span lang="de">Projekte</span><span lang="en">Projects</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
+          <a class="btn" href="https://www.linkedin.com/in/sebastianzabel/" rel="me noopener">LinkedIn<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
           <a class="btn" href="https://github.com/sebastianzabel" rel="me noopener">GitHub<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
         </div>
       </div>
@@ -282,23 +285,24 @@
       <div class="about">
         <div class="about-text rv">
           <div lang="de">
-            <p>Hauptberuflich arbeite ich bei der <strong>Oldenburgischen Landesbank (OLB)</strong> an Plattform und Betrieb: Kubernetes-Cluster auf RKE2, die Elastic-Plattform vollständig als Code, GitLab-CI-Pipelines und das Konzept für eine KI-Plattform für die IT.</p>
-            <p>Daneben baue ich eigene Produkte — allen voran <strong>Clokr</strong>, eine Open-Source-Zeiterfassung, die deutsches Arbeitsrecht ernst nimmt. Für einen Friseursalon in Oldenburg kümmere ich mich um alles Digitale.</p>
-            <p>Zuhause läuft ein Homelab mit k3s, ArgoCD und GitLab: der Ort, an dem Ideen ausprobiert werden, bevor sie im Job landen.</p>
+            <p>Seit über 15 Jahren arbeite ich in Betrieb und Plattform. Bei der <strong>Oldenburgischen Landesbank (OLB)</strong> betreibe ich heute eine interne KI-Plattform — LLM-Gateway mit Rate Limiting und Guardrails, Coding-Agents für die Entwicklung — und verantworte die Elastic-Plattform auf Kubernetes samt ihrem Rollout als SIEM.</p>
+            <p>Mit <strong>Clokr</strong> teste ich, wie weit KI-Agents bei produktionsreifer Software kommen: Claude Code schreibt den Code, ich verantworte Architektur, Anforderungen, Reviews und Qualität.</p>
+            <p>Zuhause läuft ein Homelab auf Proxmox und k3s, komplett über ArgoCD verwaltet — gerade mit einer herstellerneutralen RAG-Pipeline. Und für einen Friseursalon in Oldenburg kümmere ich mich um alles Digitale.</p>
           </div>
           <div lang="en">
-            <p>By day I work on platform and operations at <strong>Oldenburgische Landesbank (OLB)</strong>: Kubernetes clusters on RKE2, the Elastic platform fully as code, GitLab CI pipelines and the concept for an AI platform for IT.</p>
-            <p>On the side I build my own products — first and foremost <strong>Clokr</strong>, an open-source time tracker that takes German labour law seriously. For a hair salon in Oldenburg I look after everything digital.</p>
-            <p>At home there's a homelab running k3s, ArgoCD and GitLab: where ideas get tried before they reach the day job.</p>
+            <p>I've spent 15+ years in operations and platform work. At <strong>Oldenburgische Landesbank (OLB)</strong> I run an internal AI platform — an LLM gateway with rate limiting and guardrails, coding agents for developers — and own the Elastic platform on Kubernetes and its rollout as a SIEM.</p>
+            <p>With <strong>Clokr</strong> I explore how far AI agents get on production-grade software: Claude Code writes the code; I own architecture, requirements, reviews and quality.</p>
+            <p>At home there's a homelab on Proxmox and k3s, fully managed via ArgoCD — currently running a vendor-neutral RAG pipeline. And for a hair salon in Oldenburg I look after everything digital.</p>
           </div>
         </div>
         <dl class="spec rv">
           <div><dt>location</dt><dd>Oldenburg, DE</dd></div>
           <div><dt>role</dt><dd>Platform Engineer @ OLB</dd></div>
+          <div><dt>experience</dt><dd>15+ <span lang="de">Jahre</span><span lang="en">years</span></dd></div>
           <div><dt>ships</dt><dd>Clokr <span class="acc">(MIT)</span></dd></div>
+          <div><dt>certs</dt><dd>AWS SA Associate · CSM</dd></div>
           <div><dt>principles</dt><dd>IaC · GitOps · <span lang="de">KI-gestützt</span><span lang="en">AI-assisted</span></dd></div>
           <div><dt>clickops</dt><dd class="acc">false</dd></div>
-          <div><dt><span lang="de">sprachen</span><span lang="en">languages</span></dt><dd>de, en</dd></div>
         </dl>
       </div>
     </div>
@@ -314,39 +318,50 @@
       <article class="feature rv" data-glow>
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
         <div class="feature-main">
-          <div class="kicker">Open Source · <span lang="de">Eigenes Produkt</span><span lang="en">Own product</span></div>
+          <div class="kicker">Open Source · Agentic Engineering</div>
           <h3>Clokr</h3>
-          <p lang="de">Selbst gehostete Zeiterfassung und Urlaubsverwaltung für kleine und mittlere Betriebe. Kein Abo, die Daten bleiben im eigenen Haus — und die Regeln des deutschen Arbeitsrechts sind eingebaut statt drangeklebt.</p>
-          <p lang="en">Self-hosted time tracking and leave management for small and mid-sized businesses. No subscription, data stays in-house — and German labour-law rules are built in, not bolted on.</p>
+          <p lang="de">Mein Testbed für Agentic Engineering: Claude Code schreibt den gesamten Code, ich verantworte Architektur, Anforderungen, Reviews und Qualität. Heraus kommt eine mandantenfähige App für Zeiterfassung, Abwesenheiten und Schichtplanung nach deutschem Arbeitsrecht.</p>
+          <p lang="en">My agentic engineering testbed: Claude Code writes all of the code; I own architecture, requirements, reviews and quality. The result is a multi-tenant app for time tracking, absences and shift planning under German labour law.</p>
           <div style="display:flex;gap:22px;flex-wrap:wrap;margin-top:auto">
             <a class="link" href="https://github.com/getclokr/clokr" rel="noopener">getclokr/clokr ↗</a>
             <a class="link" href="https://github.com/getclokr/clokr-nfc" rel="noopener">clokr-nfc ↗</a>
           </div>
         </div>
         <div class="feature-side">
-          <div class="row"><span class="mono">01</span><span lang="de">ArbZG, BUrlG &amp; DSGVO abgebildet, 10 Jahre Aufbewahrung</span><span lang="en">ArbZG, BUrlG &amp; GDPR covered, 10-year retention</span></div>
-          <div class="row"><span class="mono">02</span><span lang="de">Audit-Trail, gesperrte Monate unveränderbar</span><span lang="en">Audit trail, locked months are immutable</span></div>
-          <div class="row"><span class="mono">03</span><span lang="de">Überstunden, Schichtplanung, DATEV-Export</span><span lang="en">Overtime, shift planning, DATEV export</span></div>
-          <div class="row"><span class="mono">04</span><span lang="de">NFC-Stempeluhr als Desktop-App, offlinefähig</span><span lang="en">NFC time clock desktop app, works offline</span></div>
-          <div class="row"><span class="mono">05</span><span><code class="acc">docker compose up</code> <span lang="de">— fertig.</span><span lang="en">— done.</span></span></div>
-          <div class="chips"><span class="chip">SvelteKit</span><span class="chip">Fastify</span><span class="chip">PostgreSQL</span><span class="chip">TypeScript</span><span class="chip">Turborepo</span><span class="chip">Docker</span></div>
+          <div class="row"><span class="mono">01</span><span lang="de">Modulgrenzen werden beim Build erzwungen</span><span lang="en">Module boundaries enforced at build time</span></div>
+          <div class="row"><span class="mono">02</span><span lang="de">Tenant-Scoping-Gate: jede ungescopte Query lässt die CI scheitern</span><span lang="en">Tenant-scoping gate: any unscoped query fails CI</span></div>
+          <div class="row"><span class="mono">03</span><span lang="de">Releases mit SBOM pro Image</span><span lang="en">Releases with an SBOM per image</span></div>
+          <div class="row"><span class="mono">04</span><span lang="de">Simulation: Bots nutzen die App, ein nächtlicher Invarianten-Check sucht kaputte Zahlen</span><span lang="en">Simulation: bots use the app, a nightly invariant checker hunts for broken numbers</span></div>
+          <div class="row"><span class="mono">05</span><span lang="de">ArbZG, BUrlG &amp; DSGVO, NFC-Stempeluhr, DATEV-Export</span><span lang="en">ArbZG, BUrlG &amp; GDPR, NFC time clock, DATEV export</span></div>
+          <div class="chips"><span class="chip">Claude Code</span><span class="chip">TypeScript</span><span class="chip">SvelteKit</span><span class="chip">Fastify</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span></div>
         </div>
       </article>
 
       <div class="index">
         <article class="item rv">
           <div class="no">/02</div>
-          <div><div class="kicker">OLB · Observability as Code</div><h3 lang="de">Elastic-Plattform als Code</h3><h3 lang="en">Elastic platform as code</h3></div>
+          <div><div class="kicker">OLB · AI Platform</div><h3 lang="de">Interne KI-Plattform</h3><h3 lang="en">Internal AI platform</h3></div>
           <div>
-            <p lang="de">Elastic Stack auf Kubernetes (ECK), konfiguriert mit OpenTofu und ausgerollt über GitLab CI — inklusive Synthetic Monitoring, dessen Monitore aus dem Repository entstehen statt per Klick.</p>
-            <p lang="en">Elastic Stack on Kubernetes (ECK), configured with OpenTofu and rolled out via GitLab CI — including synthetic monitoring whose monitors come from the repository, not from clicks.</p>
-            <div class="chips"><span class="chip">ECK</span><span class="chip">OpenTofu</span><span class="chip">GitLab CI</span><span class="chip">Synthetics</span></div>
+            <p lang="de">LLM-Gateway für die ganze Bank — mit Rate Limiting und Guardrails — plus Coding-Agents für die Entwicklung. KI nutzbar machen, ohne Kontrolle über Daten und Kosten abzugeben.</p>
+            <p lang="en">An LLM gateway for the whole bank — with rate limiting and guardrails — plus coding agents for developers. Making AI usable without giving up control over data and cost.</p>
+            <div class="chips"><span class="chip">LLM Gateway</span><span class="chip">Guardrails</span><span class="chip">Coding Agents</span><span class="chip">RAG</span></div>
+          </div>
+          <div class="meta"><span class="priv"><span lang="de">intern</span><span lang="en">internal</span></span></div>
+        </article>
+
+        <article class="item rv">
+          <div class="no">/03</div>
+          <div><div class="kicker">OLB · Observability · SIEM</div><h3 lang="de">Elastic-Plattform als Code</h3><h3 lang="en">Elastic platform as code</h3></div>
+          <div>
+            <p lang="de">Elastic Stack auf Kubernetes (ECK), konfiguriert mit OpenTofu, ausgerollt über GitLab CI und auf dem Weg zum SIEM der Bank — inklusive Synthetic Monitoring, dessen Monitore aus dem Repository entstehen statt per Klick.</p>
+            <p lang="en">Elastic Stack on Kubernetes (ECK), configured with OpenTofu, rolled out via GitLab CI and on its way to becoming the bank's SIEM — including synthetic monitoring whose monitors come from the repository, not from clicks.</p>
+            <div class="chips"><span class="chip">ECK</span><span class="chip">OpenTofu</span><span class="chip">GitLab CI</span><span class="chip">SIEM</span><span class="chip">Synthetics</span></div>
           </div>
           <div class="meta"><span class="priv"><span lang="de">intern</span><span lang="en">internal</span></span><a class="link" href="https://github.com/sebastianzabel/terraform-provider-elasticstack" rel="noopener">tf-provider fork ↗</a></div>
         </article>
 
         <article class="item rv">
-          <div class="no">/03</div>
+          <div class="no">/04</div>
           <div><div class="kicker">OLB · Kubernetes</div><h3 lang="de">RKE2 &amp; Netzwerk-Forensik</h3><h3 lang="en">RKE2 &amp; network forensics</h3></div>
           <div>
             <p lang="de">Betrieb von RKE2-Clustern mit Canal und WireGuard-Verschlüsselung, provisioniert per Ansible. Ein hartnäckiges Verbindungsproblem eines Bankdienstes auf asymmetrisches Routing zurückgeführt und sauber gelöst.</p>
@@ -357,18 +372,18 @@
         </article>
 
         <article class="item rv">
-          <div class="no">/04</div>
+          <div class="no">/05</div>
           <div><div class="kicker">Homelab · GitOps</div><h3>k3s Homelab</h3></div>
           <div>
-            <p lang="de">Git-Tag → CI baut das Image → eigene Registry → Manifest-Update → ArgoCD synchronisiert. Proxmox als Unterbau, OPNsense und HAProxy an der Kante.</p>
-            <p lang="en">Git tag → CI builds the image → private registry → manifest update → ArgoCD syncs. Proxmox underneath, OPNsense and HAProxy at the edge.</p>
-            <div class="chips"><span class="chip">k3s</span><span class="chip">ArgoCD</span><span class="chip">GitLab</span><span class="chip">Proxmox</span><span class="chip">OPNsense</span></div>
+            <p lang="de">Proxmox und k3s, komplett über ArgoCD verwaltet (App of Apps): Git-Tag → CI baut das Image → eigene Registry → ArgoCD synchronisiert. Aktuell: eine herstellerneutrale RAG-Pipeline mit Qdrant, FastEmbed und bge-m3.</p>
+            <p lang="en">Proxmox and k3s, fully managed via ArgoCD (app of apps): git tag → CI builds the image → private registry → ArgoCD syncs. Currently: a vendor-neutral RAG pipeline with Qdrant, FastEmbed and bge-m3.</p>
+            <div class="chips"><span class="chip">k3s</span><span class="chip">ArgoCD</span><span class="chip">Proxmox</span><span class="chip">Qdrant</span><span class="chip">bge-m3</span></div>
           </div>
           <div class="meta"><span class="priv">private</span></div>
         </article>
 
         <article class="item rv">
-          <div class="no">/05</div>
+          <div class="no">/06</div>
           <div><div class="kicker">Web · SEO · Performance</div><h3>Anja Weiss Haarkonzept</h3></div>
           <div>
             <p lang="de">Website für einen Friseursalon in Oldenburg: Next.js Static Export, selbst gehostete Fonts, DSGVO ohne Kompromisse, lokales SEO und eigenes Formular-Backend.</p>
@@ -379,7 +394,7 @@
         </article>
 
         <article class="item rv">
-          <div class="no">/06</div>
+          <div class="no">/07</div>
           <div><div class="kicker">Home Assistant · Open Source</div><h3 lang="de">HA-Erweiterungen</h3><h3 lang="en">HA extensions</h3></div>
           <div>
             <p lang="de">Trello-Integration samt Kanban-Karte mit Drag &amp; Drop fürs Dashboard, und eine Karte für Pflanzen-Monitoring mit VPD-Berechnung, Klima- und Lichtsteuerung.</p>
@@ -400,26 +415,26 @@
   <section id="experience">
     <div class="wrap">
       <div class="label rv"><span class="idx">03</span><span lang="de">Werdegang</span><span lang="en">Experience</span></div>
-      <h2 class="rv" lang="de">Aktuell <span class="dim">im Einsatz.</span></h2>
-      <h2 class="rv" lang="en">Currently <span class="dim">deployed.</span></h2>
+      <h2 class="rv" lang="de">15+ Jahre <span class="dim">Betrieb &amp; Plattform.</span></h2>
+      <h2 class="rv" lang="en">15+ years <span class="dim">of ops &amp; platform.</span></h2>
       <div class="log rv">
-        <div class="log-head"><span>$ kubectl get roles</span><span>3 running</span></div>
+        <div class="log-head"><span>$ git log --oneline career</span><span>5 commits</span></div>
         <div class="log-entry">
-          <div class="when">● <span lang="de">Hauptberuf</span><span lang="en">Full-time</span></div>
+          <div class="when">● HEAD · <span lang="de">heute</span><span lang="en">now</span></div>
           <div>
             <h3>Platform Engineer</h3>
             <div class="org">Oldenburgische Landesbank (OLB)</div>
-            <p lang="de">Kubernetes (RKE2), Elastic-Plattform als Code, GitLab CI und Plattformbetrieb. Konzept und erster Meilenstein einer KI-Plattform für die IT-Abteilung.</p>
-            <p lang="en">Kubernetes (RKE2), Elastic platform as code, GitLab CI and platform operations. Concept and first milestone of an AI platform for the IT department.</p>
+            <p lang="de">Betrieb einer internen KI-Plattform (LLM-Gateway mit Rate Limiting und Guardrails, Coding-Agents für die Entwicklung). Verantwortung für die Elastic-Plattform auf Kubernetes und ihren Rollout als SIEM.</p>
+            <p lang="en">Running an internal AI platform (LLM gateway with rate limiting and guardrails, coding agents for developers). Owning the Elastic platform on Kubernetes and its rollout as a SIEM.</p>
           </div>
         </div>
         <div class="log-entry">
           <div class="when">● Open Source</div>
           <div>
-            <h3>Founder &amp; Maintainer</h3>
+            <h3>Creator &amp; Maintainer</h3>
             <div class="org">Clokr</div>
-            <p lang="de">Produkt, Architektur und Entwicklung einer Open-Source-Zeiterfassung für KMU.</p>
-            <p lang="en">Product, architecture and development of an open-source time tracker for SMEs.</p>
+            <p lang="de">Agentic-Engineering-Testbed: Architektur, Anforderungen, Reviews und Qualität einer mandantenfähigen Zeiterfassung, deren Code Claude Code schreibt.</p>
+            <p lang="en">Agentic engineering testbed: architecture, requirements, reviews and quality of a multi-tenant time tracker whose code is written by Claude Code.</p>
           </div>
         </div>
         <div class="log-entry">
@@ -429,6 +444,24 @@
             <div class="org">Anja Weiss Haarkonzept, Oldenburg</div>
             <p lang="de">Website, Formulare, Buchungsintegration und KI-gestützte Werkzeuge für den Salonalltag.</p>
             <p lang="en">Website, forms, booking integration and AI-assisted tools for day-to-day salon work.</p>
+          </div>
+        </div>
+        <div class="log-entry past">
+          <div class="when">○ <span lang="de">davor</span><span lang="en">before</span></div>
+          <div>
+            <h3><span lang="de">Cloud &amp; Platform Engineering · Teamlead</span><span lang="en">Cloud &amp; platform engineering · team lead</span></h3>
+            <div class="org">sonnen</div>
+            <p lang="de">Leitung eines Plattform-Teams mit sieben Personen. Aufbau einer AWS Landing Zone mit Terraform.</p>
+            <p lang="en">Led a seven-person platform team. Built an AWS landing zone with Terraform.</p>
+          </div>
+        </div>
+        <div class="log-entry past">
+          <div class="when">○ <span lang="de">davor</span><span lang="en">before</span></div>
+          <div>
+            <h3><span lang="de">Netzwerk-Monitoring</span><span lang="en">Network monitoring</span></h3>
+            <div class="org">EWE TEL</div>
+            <p lang="de">Der Einstieg in den Betrieb: Überwachung von Netzwerk-Infrastruktur.</p>
+            <p lang="en">Where operations started: monitoring network infrastructure.</p>
           </div>
         </div>
       </div>
@@ -443,11 +476,11 @@
       <h2 class="rv" lang="en">Tools <span class="dim">I use daily.</span></h2>
       <div class="matrix rv">
         <div class="cell" data-glow><h3>Orchestration <b>[01]</b></h3><ul><li>Kubernetes</li><li>RKE2 · k3s</li><li>Helm</li><li>Docker</li></ul></div>
-        <div class="cell" data-glow><h3>IaC · GitOps <b>[02]</b></h3><ul><li>Terraform · OpenTofu</li><li>Ansible</li><li>ArgoCD</li><li>GitLab CI · GitHub Actions</li></ul></div>
-        <div class="cell" data-glow><h3>Observability <b>[03]</b></h3><ul><li>Elasticsearch · ECK</li><li>Kibana</li><li>Synthetics</li><li>Fleet</li></ul></div>
+        <div class="cell" data-glow><h3>IaC · GitOps <b>[02]</b></h3><ul><li>Terraform · OpenTofu</li><li>Ansible · ArgoCD</li><li>GitLab CI · GitHub Actions</li><li>AWS</li></ul></div>
+        <div class="cell" data-glow><h3>Observability <b>[03]</b></h3><ul><li>Elasticsearch · ECK</li><li>Kibana · Fleet</li><li>SIEM</li><li>Synthetics</li></ul></div>
         <div class="cell" data-glow><h3><span lang="de">Entwicklung</span><span lang="en">Development</span> <b>[04]</b></h3><ul><li>TypeScript</li><li>SvelteKit · Next.js</li><li>Fastify · PostgreSQL</li><li>Python</li></ul></div>
         <div class="cell" data-glow><h3><span lang="de">Netz</span><span lang="en">Network</span> <b>[05]</b></h3><ul><li>Linux</li><li>Proxmox</li><li>OPNsense · HAProxy</li><li>WireGuard</li></ul></div>
-        <div class="cell" data-glow><h3><span lang="de">KI</span><span lang="en">AI</span> <b>[06]</b></h3><ul><li>Claude Code</li><li>Claude API</li><li>RAG · Agents</li><li>Home Assistant</li></ul></div>
+        <div class="cell" data-glow><h3><span lang="de">KI</span><span lang="en">AI</span> <b>[06]</b></h3><ul><li>LLM Gateways · Guardrails</li><li>Claude Code · Agents</li><li>RAG</li><li>Qdrant · bge-m3</li></ul></div>
       </div>
     </div>
   </section>
@@ -460,6 +493,7 @@
       <h2 class="rv" lang="en">Let's <br><span class="out">build.</span></h2>
       <div class="cta rv">
         <a class="btn primary" href="https://github.com/sebastianzabel" rel="me noopener">github.com/sebastianzabel<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+        <a class="btn" href="https://www.linkedin.com/in/sebastianzabel/" rel="me noopener">LinkedIn<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
         <a class="btn" href="https://github.com/getclokr" rel="noopener">github.com/getclokr<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
       </div>
     </div>
