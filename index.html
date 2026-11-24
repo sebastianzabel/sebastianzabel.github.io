@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="de" data-lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sebastian Zabel — Platform Engineer & Builder</title>
+<meta name="description" content="Sebastian Zabel aus Oldenburg: Platform Engineering bei der OLB, Open-Source-Zeiterfassung Clokr, Homelab-GitOps und Web-Projekte.">
+<meta property="og:title" content="Sebastian Zabel — Platform Engineer & Builder">
+<meta property="og:description" content="Kubernetes, Infrastructure as Code, GitOps — und Produkte, die echte Probleme lösen.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#050607">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23050607'/><path d='M6 26 16 6l10 20' fill='none' stroke='%23c8ff2e' stroke-width='3'/></svg>">
+<style>
+  :root {
+    --bg: #050607;
+    --bg-1: #0b0d0f;
+    --bg-2: #111418;
+    --fg: #e8ecef;
+    --fg-2: #9aa3ab;
+    --fg-3: #5b646c;
+    --line: #1c2126;
+    --line-2: #2a3138;
+    --acc: #c8ff2e;          /* acid lime */
+    --acc-dim: rgba(200, 255, 46, .12);
+    --cyan: #3de0ff;
+    --sans: "SF Pro Display", "Inter Display", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", "Berkeley Mono", ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --max: 1240px;
+    --pad: clamp(20px, 4vw, 48px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; background: var(--bg); }
+  body {
+    font-family: var(--sans); color: var(--fg); background: var(--bg);
+    font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  /* film grain */
+  body::after {
+    content: ""; position: fixed; inset: -50%; z-index: 100; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: grain 1.2s steps(6) infinite;
+  }
+  @keyframes grain { 0%{transform:translate(0,0)} 33%{transform:translate(-3%,2%)} 66%{transform:translate(2%,-3%)} 100%{transform:translate(0,0)} }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--acc); color: #000; }
+  .mono { font-family: var(--mono); }
+  .acc { color: var(--acc); }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+  /* language switch: both languages live in the markup, CSS shows one */
+  html[data-lang="de"] [lang="en"]:not(html) { display: none !important; }
+  html[data-lang="en"] [lang="de"]:not(html) { display: none !important; }
+
+  /* ── HUD bar ── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    border-bottom: 1px solid transparent; transition: background .3s, border-color .3s;
+  }
+  header.solid { background: rgba(5, 6, 7, .78); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-color: var(--line); }
+  header .wrap { display: flex; align-items: center; gap: 28px; height: 60px; font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--fg); font-weight: 600; }
+  .logo svg { width: 18px; height: 18px; }
+  nav { display: flex; gap: 4px; margin-left: auto; }
+  nav a { color: var(--fg-2); padding: 6px 10px; border: 1px solid transparent; transition: color .2s, border-color .2s; }
+  nav a:hover { color: var(--acc); border-color: var(--line-2); }
+  nav a span.n { color: var(--fg-3); margin-right: 6px; }
+  .lang { display: flex; border: 1px solid var(--line-2); }
+  .lang button { all: unset; cursor: pointer; padding: 5px 10px; color: var(--fg-3); font: inherit; }
+  .lang button[aria-pressed="true"] { background: var(--acc); color: #000; }
+  .lang button:focus-visible { outline: 1px solid var(--acc); outline-offset: 2px; }
+  @media (max-width: 860px) { nav { display: none; } .lang { margin-left: auto; } }
+
+  /* ── Hero ── */
+  .hero { position: relative; min-height: 100vh; min-height: 100lvh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 56px; overflow: hidden; isolation: isolate; }
+  #field { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+  .hero::before { /* horizon glow */
+    content: ""; position: absolute; z-index: -1; left: 50%; bottom: -40vh; width: 140vw; height: 80vh; transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgba(200,255,46,.10), transparent 70%);
+  }
+  .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5,6,7,.2) 0%, transparent 40%, rgba(5,6,7,.85) 100%); }
+  .hud-row { display: flex; flex-wrap: wrap; gap: 10px 28px; font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-3); }
+  .hud-row b { color: var(--fg-2); font-weight: 500; }
+  .pulse { display: inline-block; width: 7px; height: 7px; background: var(--acc); margin-right: 8px; box-shadow: 0 0 12px var(--acc); animation: blink 1.6s steps(2) infinite; vertical-align: 1px; }
+  @keyframes blink { 50% { opacity: .25; } }
+  h1 {
+    font-weight: 800; text-transform: uppercase; letter-spacing: -0.055em; line-height: .82;
+    font-size: clamp(3.6rem, 15.5vw, 15rem); margin: 28px 0 32px -0.04em;
+  }
+  h1 .l2 { display: block; -webkit-text-stroke: 1.5px var(--fg); color: transparent; }
+  h1 .cursor { display: inline-block; width: .09em; height: .78em; background: var(--acc); margin-left: .06em; vertical-align: -0.02em; animation: blink 1s steps(2) infinite; }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: end; border-top: 1px solid var(--line-2); padding-top: 24px; }
+  .lede { font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: var(--fg-2); max-width: 44ch; line-height: 1.5; }
+  .lede strong { color: var(--fg); font-weight: 500; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+  .btn {
+    position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px;
+    font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em;
+    border: 1px solid var(--line-2); color: var(--fg); background: var(--bg-1);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover { border-color: var(--acc); color: var(--acc); }
+  .btn.primary { background: var(--acc); color: #000; border-color: var(--acc); font-weight: 600; }
+  .btn.primary:hover { background: #fff; border-color: #fff; color: #000; }
+  .btn svg { width: 15px; height: 15px; }
+  @media (max-width: 760px) { .hero-grid { grid-template-columns: 1fr; } .cta { justify-content: flex-start; } }
+
+  /* ── Marquee ── */
+  .marquee { border-block: 1px solid var(--line); overflow: hidden; background: var(--bg-1); }
+  .marquee-track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .marquee span { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-2); padding: 16px 0; white-space: nowrap; }
+  .marquee span::after { content: "/"; color: var(--acc); margin: 0 26px; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ── Sections ── */
+  section { padding: clamp(80px, 12vw, 150px) 0; position: relative; }
+  .label {
+    display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 12px;
+    text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); margin-bottom: 28px;
+  }
+  .label .idx { color: var(--acc); }
+  .label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-2), transparent); }
+  h2 { font-weight: 700; font-size: clamp(2.2rem, 6vw, 5rem); line-height: .95; letter-spacing: -0.045em; text-transform: uppercase; max-width: 16ch; }
+  h2 .dim { color: var(--fg-3); }
+  .intro { color: var(--fg-2); max-width: 56ch; margin-top: 22px; font-size: 1.05rem; }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 6vw, 80px); margin-top: 56px; }
+  .about-text p { color: var(--fg-2); font-size: 1.08rem; }
+  .about-text p + p { margin-top: 1.1em; }
+  .about-text strong { color: var(--fg); font-weight: 500; }
+  .spec { border: 1px solid var(--line-2); background: var(--bg-1); font-family: var(--mono); font-size: 13px; position: relative; }
+  .spec::before { content: "// profile.yaml"; position: absolute; top: -9px; left: 14px; padding: 0 8px; background: var(--bg); color: var(--fg-3); font-size: 11px; }
+  .spec div { display: grid; grid-template-columns: 130px 1fr; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--line); }
+  .spec div:last-child { border-bottom: 0; }
+  .spec dt { color: var(--fg-3); }
+  .spec dd { color: var(--fg); }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+
+  /* Featured project */
+  .feature {
+    margin-top: 64px; border: 1px solid var(--line-2); background:
+      radial-gradient(600px circle at var(--mx, 70%) var(--my, 0%), rgba(200,255,46,.07), transparent 60%), var(--bg-1);
+    display: grid; grid-template-columns: 1.15fr 1fr; position: relative;
+  }
+  .corner { position: absolute; width: 14px; height: 14px; border-color: var(--acc); border-style: solid; }
+  .corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+  .feature-main { padding: clamp(28px, 4vw, 52px); border-right: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 22px; }
+  .feature-main h3 { font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; letter-spacing: -0.06em; line-height: .85; text-transform: uppercase; }
+  .feature-main p { color: var(--fg-2); font-size: 1.05rem; max-width: 46ch; }
+  .feature-side { display: flex; flex-direction: column; }
+  .feature-side .row { padding: 18px clamp(20px, 3vw, 32px); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 15px; color: var(--fg-2); }
+  .feature-side .row .mono { color: var(--acc); font-size: 12px; padding-top: 2px; }
+  .feature-side .chips { padding: 20px clamp(20px, 3vw, 32px); margin-top: auto; }
+  @media (max-width: 860px) { .feature { grid-template-columns: 1fr; } .feature-main { border-right: 0; border-bottom: 1px solid var(--line-2); } }
+
+  .kicker { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--acc); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-family: var(--mono); font-size: 11.5px; padding: 4px 9px; border: 1px solid var(--line-2); color: var(--fg-2); background: rgba(255,255,255,.015); }
+  .link { font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--acc); display: inline-flex; gap: 8px; align-items: center; }
+  .link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  /* Project index */
+  .index { margin-top: 28px; border-top: 1px solid var(--line-2); }
+  .item {
+    display: grid; grid-template-columns: 70px 1.1fr 1.4fr 160px; gap: 28px; align-items: start;
+    padding: 30px 0; border-bottom: 1px solid var(--line-2); position: relative; transition: background .25s;
+  }
+  .item::before { content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: 0; background: var(--acc); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+  .item:hover::before { width: 100%; }
+  .item:hover { background: linear-gradient(90deg, var(--acc-dim), transparent 60%); }
+  .item .no { font-family: var(--mono); font-size: 13px; color: var(--fg-3); padding-top: 6px; padding-left: 4px; }
+  .item:hover .no { color: var(--acc); }
+  .item h3 { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; text-transform: uppercase; margin-top: 8px; }
+  .item p { color: var(--fg-2); font-size: 15px; margin-bottom: 14px; }
+  .item .meta { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; text-align: right; padding-top: 6px; }
+  .item .meta .priv { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg-3); }
+  @media (max-width: 960px) {
+    .item { grid-template-columns: 50px 1fr; gap: 6px 18px; }
+    .item > div:nth-child(3), .item .meta { grid-column: 2; }
+    .item .meta { align-items: flex-start; text-align: left; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+  }
+
+  /* Timeline */
+  .log { margin-top: 56px; font-family: var(--mono); border: 1px solid var(--line-2); background: var(--bg-1); }
+  .log-head { display: flex; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--line-2); font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-3); }
+  .log-entry { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 26px 18px; border-bottom: 1px solid var(--line); }
+  .log-entry:last-child { border-bottom: 0; }
+  .log-entry .when { font-size: 12px; color: var(--acc); text-transform: uppercase; letter-spacing: .08em; padding-top: 4px; }
+  .log-entry h3 { font-family: var(--sans); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+  .log-entry .org { font-size: 13px; color: var(--cyan); margin: 4px 0 10px; }
+  .log-entry p { font-family: var(--sans); color: var(--fg-2); font-size: 15px; max-width: 64ch; }
+  @media (max-width: 700px) { .log-entry { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* Skills matrix */
+  .matrix { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line-2); border-left: 1px solid var(--line-2); }
+  .cell { border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); padding: 26px; position: relative; overflow: hidden; }
+  .cell::after { content: ""; position: absolute; inset: 0; background: radial-gradient(300px circle at var(--mx, -100px) var(--my, -100px), rgba(200,255,46,.08), transparent 60%); pointer-events: none; }
+  .cell h3 { font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .12em; color: var(--fg-3); margin-bottom: 18px; display: flex; justify-content: space-between; }
+  .cell h3 b { color: var(--acc); font-weight: 500; }
+  .cell ul { list-style: none; display: grid; gap: 6px; font-size: 1.05rem; }
+  .cell li { display: flex; align-items: center; gap: 10px; }
+  .cell li::before { content: ""; width: 5px; height: 5px; background: var(--fg-3); }
+  .cell:hover li::before { background: var(--acc); }
+  @media (max-width: 900px) { .matrix { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .matrix { grid-template-columns: 1fr; } }
+
+  /* Contact */
+  .contact h2 { font-size: clamp(2.8rem, 10vw, 9rem); max-width: none; line-height: .85; }
+  .contact h2 .out { -webkit-text-stroke: 1.5px var(--fg); color: transparent; }
+  .contact .cta { justify-content: flex-start; margin-top: 44px; }
+  footer { border-top: 1px solid var(--line); padding: 26px 0 34px; font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-3); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  /* reveal — content stays visible without JS */
+  .js .rv { opacity: 0; transform: translateY(24px); filter: blur(6px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1), filter .8s; }
+  .js .rv.in { opacity: 1; transform: none; filter: none; }
+</style>
+</head>
+<body>
+<header id="hud">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg viewBox="0 0 32 32"><path d="M6 26 16 6l10 20" fill="none" stroke="#c8ff2e" stroke-width="3"/></svg>S.Zabel</a>
+    <nav aria-label="Navigation">
+      <a href="#about"><span class="n">01</span><span lang="de">Profil</span><span lang="en">Profile</span></a>
+      <a href="#projects"><span class="n">02</span><span lang="de">Projekte</span><span lang="en">Projects</span></a>
+      <a href="#experience"><span class="n">03</span><span lang="de">Werdegang</span><span lang="en">Experience</span></a>
+      <a href="#skills"><span class="n">04</span>Stack</a>
+      <a href="#contact"><span class="n">05</span><span lang="de">Kontakt</span><span lang="en">Contact</span></a>
+    </nav>
+    <div class="lang" role="group" aria-label="Sprache / Language">
+      <button type="button" data-set-lang="de" aria-pressed="true">DE</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hud-row">
+        <span><i class="pulse"></i><b><span lang="de">Online</span><span lang="en">Online</span></b></span>
+        <span>53.14°N 8.21°E · Oldenburg</span>
+        <span><span lang="de">Ortszeit</span><span lang="en">Local time</span> <b id="clock">--:--:--</b></span>
+      </div>
+      <h1 aria-label="Sebastian Zabel"><span class="l1" data-scramble>Sebastian</span><span class="l2" data-scramble>Zabel<span class="cursor"></span></span></h1>
+      <div class="hero-grid">
+        <div>
+          <p class="lede" lang="de">Platform Engineer. Ich baue Infrastruktur, die sich selbst beschreibt — <strong>Kubernetes, Infrastructure as Code, GitOps</strong> — und Software, die echte Probleme kleiner Betriebe löst.</p>
+          <p class="lede" lang="en">Platform engineer. I build infrastructure that describes itself — <strong>Kubernetes, infrastructure as code, GitOps</strong> — and software that solves real problems for small businesses.</p>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="#projects"><span lang="de">Projekte</span><span lang="en">Projects</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M4 9l4 4 4-4"/></svg></a>
+          <a class="btn" href="https://github.com/sebastianzabel" rel="me noopener">GitHub<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Kubernetes</span><span>RKE2</span><span>k3s</span><span>ArgoCD</span><span>OpenTofu</span><span>Terraform</span><span>Ansible</span><span>GitLab CI</span><span>Elastic</span><span>SvelteKit</span><span>Fastify</span><span>PostgreSQL</span><span>Next.js</span><span>Claude Code</span>
+      <span>Kubernetes</span><span>RKE2</span><span>k3s</span><span>ArgoCD</span><span>OpenTofu</span><span>Terraform</span><span>Ansible</span><span>GitLab CI</span><span>Elastic</span><span>SvelteKit</span><span>Fastify</span><span>PostgreSQL</span><span>Next.js</span><span>Claude Code</span>
+    </div>
+  </div>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="wrap">
+      <div class="label rv"><span class="idx">01</span><span lang="de">Profil</span><span lang="en">Profile</span></div>
+      <h2 class="rv" lang="de">Systeme denken, <span class="dim">nicht Tickets.</span></h2>
+      <h2 class="rv" lang="en">Think in systems, <span class="dim">not tickets.</span></h2>
+      <div class="about">
+        <div class="about-text rv">
+          <div lang="de">
+            <p>Hauptberuflich arbeite ich bei der <strong>Oldenburgischen Landesbank (OLB)</strong> an Plattform und Betrieb: Kubernetes-Cluster auf RKE2, die Elastic-Plattform vollständig als Code, GitLab-CI-Pipelines und das Konzept für eine KI-Plattform für die IT.</p>
+            <p>Daneben baue ich eigene Produkte — allen voran <strong>Clokr</strong>, eine Open-Source-Zeiterfassung, die deutsches Arbeitsrecht ernst nimmt. Für einen Friseursalon in Oldenburg kümmere ich mich um alles Digitale.</p>
+            <p>Zuhause läuft ein Homelab mit k3s, ArgoCD und GitLab: der Ort, an dem Ideen ausprobiert werden, bevor sie im Job landen.</p>
+          </div>
+          <div lang="en">
+            <p>By day I work on platform and operations at <strong>Oldenburgische Landesbank (OLB)</strong>: Kubernetes clusters on RKE2, the Elastic platform fully as code, GitLab CI pipelines and the concept for an AI platform for IT.</p>
+            <p>On the side I build my own products — first and foremost <strong>Clokr</strong>, an open-source time tracker that takes German labour law seriously. For a hair salon in Oldenburg I look after everything digital.</p>
+            <p>At home there's a homelab running k3s, ArgoCD and GitLab: where ideas get tried before they reach the day job.</p>
+          </div>
+        </div>
+        <dl class="spec rv">
+          <div><dt>location</dt><dd>Oldenburg, DE</dd></div>
+          <div><dt>role</dt><dd>Platform Engineer @ OLB</dd></div>
+          <div><dt>ships</dt><dd>Clokr <span class="acc">(MIT)</span></dd></div>
+          <div><dt>principles</dt><dd>IaC · GitOps · <span lang="de">KI-gestützt</span><span lang="en">AI-assisted</span></dd></div>
+          <div><dt>clickops</dt><dd class="acc">false</dd></div>
+          <div><dt><span lang="de">sprachen</span><span lang="en">languages</span></dt><dd>de, en</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ── -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="label rv"><span class="idx">02</span><span lang="de">Projekte</span><span lang="en">Projects</span></div>
+      <h2 class="rv" lang="de">Gebaut, <span class="dim">betrieben, ausgeliefert.</span></h2>
+      <h2 class="rv" lang="en">Built, <span class="dim">run, shipped.</span></h2>
+
+      <article class="feature rv" data-glow>
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="feature-main">
+          <div class="kicker">Open Source · <span lang="de">Eigenes Produkt</span><span lang="en">Own product</span></div>
+          <h3>Clokr</h3>
+          <p lang="de">Selbst gehostete Zeiterfassung und Urlaubsverwaltung für kleine und mittlere Betriebe. Kein Abo, die Daten bleiben im eigenen Haus — und die Regeln des deutschen Arbeitsrechts sind eingebaut statt drangeklebt.</p>
+          <p lang="en">Self-hosted time tracking and leave management for small and mid-sized businesses. No subscription, data stays in-house — and German labour-law rules are built in, not bolted on.</p>
+          <div style="display:flex;gap:22px;flex-wrap:wrap;margin-top:auto">
+            <a class="link" href="https://github.com/getclokr/clokr" rel="noopener">getclokr/clokr ↗</a>
+            <a class="link" href="https://github.com/getclokr/clokr-nfc" rel="noopener">clokr-nfc ↗</a>
+          </div>
+        </div>
+        <div class="feature-side">
+          <div class="row"><span class="mono">01</span><span lang="de">ArbZG, BUrlG &amp; DSGVO abgebildet, 10 Jahre Aufbewahrung</span><span lang="en">ArbZG, BUrlG &amp; GDPR covered, 10-year retention</span></div>
+          <div class="row"><span class="mono">02</span><span lang="de">Audit-Trail, gesperrte Monate unveränderbar</span><span lang="en">Audit trail, locked months are immutable</span></div>
+          <div class="row"><span class="mono">03</span><span lang="de">Überstunden, Schichtplanung, DATEV-Export</span><span lang="en">Overtime, shift planning, DATEV export</span></div>
+          <div class="row"><span class="mono">04</span><span lang="de">NFC-Stempeluhr als Desktop-App, offlinefähig</span><span lang="en">NFC time clock desktop app, works offline</span></div>
+          <div class="row"><span class="mono">05</span><span><code class="acc">docker compose up</code> <span lang="de">— fertig.</span><span lang="en">— done.</span></span></div>
+          <div class="chips"><span class="chip">SvelteKit</span><span class="chip">Fastify</span><span class="chip">PostgreSQL</span><span class="chip">TypeScript</span><span class="chip">Turborepo</span><span class="chip">Docker</span></div>
+        </div>
+      </article>
+
+      <div class="index">
+        <article class="item rv">
+          <div class="no">/02</div>
+          <div><div class="kicker">OLB · Observability as Code</div><h3 lang="de">Elastic-Plattform als Code</h3><h3 lang="en">Elastic platform as code</h3></div>
+          <div>
+            <p lang="de">Elastic Stack auf Kubernetes (ECK), konfiguriert mit OpenTofu und ausgerollt über GitLab CI — inklusive Synthetic Monitoring, dessen Monitore aus dem Repository entstehen statt per Klick.</p>
+            <p lang="en">Elastic Stack on Kubernetes (ECK), configured with OpenTofu and rolled out via GitLab CI — including synthetic monitoring whose monitors come from the repository, not from clicks.</p>
+            <div class="chips"><span class="chip">ECK</span><span class="chip">OpenTofu</span><span class="chip">GitLab CI</span><span class="chip">Synthetics</span></div>
+          </div>
+          <div class="meta"><span class="priv"><span lang="de">intern</span><span lang="en">internal</span></span><a class="link" href="https://github.com/sebastianzabel/terraform-provider-elasticstack" rel="noopener">tf-provider fork ↗</a></div>
+        </article>
+
+        <article class="item rv">
+          <div class="no">/03</div>
+          <div><div class="kicker">OLB · Kubernetes</div><h3 lang="de">RKE2 &amp; Netzwerk-Forensik</h3><h3 lang="en">RKE2 &amp; network forensics</h3></div>
+          <div>
+            <p lang="de">Betrieb von RKE2-Clustern mit Canal und WireGuard-Verschlüsselung, provisioniert per Ansible. Ein hartnäckiges Verbindungsproblem eines Bankdienstes auf asymmetrisches Routing zurückgeführt und sauber gelöst.</p>
+            <p lang="en">Running RKE2 clusters with Canal and WireGuard encryption, provisioned via Ansible. Traced a stubborn connectivity issue in a banking service to asymmetric routing and fixed it properly.</p>
+            <div class="chips"><span class="chip">RKE2</span><span class="chip">Canal</span><span class="chip">WireGuard</span><span class="chip">Ansible</span></div>
+          </div>
+          <div class="meta"><span class="priv"><span lang="de">intern</span><span lang="en">internal</span></span></div>
+        </article>
+
+        <article class="item rv">
+          <div class="no">/04</div>
+          <div><div class="kicker">Homelab · GitOps</div><h3>k3s Homelab</h3></div>
+          <div>
+            <p lang="de">Git-Tag → CI baut das Image → eigene Registry → Manifest-Update → ArgoCD synchronisiert. Proxmox als Unterbau, OPNsense und HAProxy an der Kante.</p>
+            <p lang="en">Git tag → CI builds the image → private registry → manifest update → ArgoCD syncs. Proxmox underneath, OPNsense and HAProxy at the edge.</p>
+            <div class="chips"><span class="chip">k3s</span><span class="chip">ArgoCD</span><span class="chip">GitLab</span><span class="chip">Proxmox</span><span class="chip">OPNsense</span></div>
+          </div>
+          <div class="meta"><span class="priv">private</span></div>
+        </article>
+
+        <article class="item rv">
+          <div class="no">/05</div>
+          <div><div class="kicker">Web · SEO · Performance</div><h3>Anja Weiss Haarkonzept</h3></div>
+          <div>
+            <p lang="de">Website für einen Friseursalon in Oldenburg: Next.js Static Export, selbst gehostete Fonts, DSGVO ohne Kompromisse, lokales SEO und eigenes Formular-Backend.</p>
+            <p lang="en">Website for a hair salon in Oldenburg: Next.js static export, self-hosted fonts, privacy-first, local SEO and a custom form backend.</p>
+            <div class="chips"><span class="chip">Next.js</span><span class="chip">React</span><span class="chip">Tailwind</span><span class="chip">PHP</span></div>
+          </div>
+          <div class="meta"><a class="link" href="https://anjaweiss-haarkonzept.de" rel="noopener">live ↗</a></div>
+        </article>
+
+        <article class="item rv">
+          <div class="no">/06</div>
+          <div><div class="kicker">Home Assistant · Open Source</div><h3 lang="de">HA-Erweiterungen</h3><h3 lang="en">HA extensions</h3></div>
+          <div>
+            <p lang="de">Trello-Integration samt Kanban-Karte mit Drag &amp; Drop fürs Dashboard, und eine Karte für Pflanzen-Monitoring mit VPD-Berechnung, Klima- und Lichtsteuerung.</p>
+            <p lang="en">A Trello integration with a drag-and-drop kanban card for the dashboard, and a plant-monitoring card with VPD calculation, climate and light control.</p>
+            <div class="chips"><span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">Lovelace</span><span class="chip">HACS</span></div>
+          </div>
+          <div class="meta">
+            <a class="link" href="https://github.com/sebastianzabel/ha-trello" rel="noopener">ha-trello ↗</a>
+            <a class="link" href="https://github.com/sebastianzabel/ha-trello-card" rel="noopener">trello-card ↗</a>
+            <a class="link" href="https://github.com/sebastianzabel/ha-grow-box-card" rel="noopener">grow-box ↗</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience ── -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="label rv"><span class="idx">03</span><span lang="de">Werdegang</span><span lang="en">Experience</span></div>
+      <h2 class="rv" lang="de">Aktuell <span class="dim">im Einsatz.</span></h2>
+      <h2 class="rv" lang="en">Currently <span class="dim">deployed.</span></h2>
+      <div class="log rv">
+        <div class="log-head"><span>$ kubectl get roles</span><span>3 running</span></div>
+        <div class="log-entry">
+          <div class="when">● <span lang="de">Hauptberuf</span><span lang="en">Full-time</span></div>
+          <div>
+            <h3>Platform Engineer</h3>
+            <div class="org">Oldenburgische Landesbank (OLB)</div>
+            <p lang="de">Kubernetes (RKE2), Elastic-Plattform als Code, GitLab CI und Plattformbetrieb. Konzept und erster Meilenstein einer KI-Plattform für die IT-Abteilung.</p>
+            <p lang="en">Kubernetes (RKE2), Elastic platform as code, GitLab CI and platform operations. Concept and first milestone of an AI platform for the IT department.</p>
+          </div>
+        </div>
+        <div class="log-entry">
+          <div class="when">● Open Source</div>
+          <div>
+            <h3>Founder &amp; Maintainer</h3>
+            <div class="org">Clokr</div>
+            <p lang="de">Produkt, Architektur und Entwicklung einer Open-Source-Zeiterfassung für KMU.</p>
+            <p lang="en">Product, architecture and development of an open-source time tracker for SMEs.</p>
+          </div>
+        </div>
+        <div class="log-entry">
+          <div class="when">● <span lang="de">Nebenberuflich</span><span lang="en">Part-time</span></div>
+          <div>
+            <h3><span lang="de">Digitalisierung &amp; Web</span><span lang="en">Digital &amp; web</span></h3>
+            <div class="org">Anja Weiss Haarkonzept, Oldenburg</div>
+            <p lang="de">Website, Formulare, Buchungsintegration und KI-gestützte Werkzeuge für den Salonalltag.</p>
+            <p lang="en">Website, forms, booking integration and AI-assisted tools for day-to-day salon work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ── -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="label rv"><span class="idx">04</span>Stack</div>
+      <h2 class="rv" lang="de">Werkzeuge, <span class="dim">die ich täglich nutze.</span></h2>
+      <h2 class="rv" lang="en">Tools <span class="dim">I use daily.</span></h2>
+      <div class="matrix rv">
+        <div class="cell" data-glow><h3>Orchestration <b>[01]</b></h3><ul><li>Kubernetes</li><li>RKE2 · k3s</li><li>Helm</li><li>Docker</li></ul></div>
+        <div class="cell" data-glow><h3>IaC · GitOps <b>[02]</b></h3><ul><li>Terraform · OpenTofu</li><li>Ansible</li><li>ArgoCD</li><li>GitLab CI · GitHub Actions</li></ul></div>
+        <div class="cell" data-glow><h3>Observability <b>[03]</b></h3><ul><li>Elasticsearch · ECK</li><li>Kibana</li><li>Synthetics</li><li>Fleet</li></ul></div>
+        <div class="cell" data-glow><h3><span lang="de">Entwicklung</span><span lang="en">Development</span> <b>[04]</b></h3><ul><li>TypeScript</li><li>SvelteKit · Next.js</li><li>Fastify · PostgreSQL</li><li>Python</li></ul></div>
+        <div class="cell" data-glow><h3><span lang="de">Netz</span><span lang="en">Network</span> <b>[05]</b></h3><ul><li>Linux</li><li>Proxmox</li><li>OPNsense · HAProxy</li><li>WireGuard</li></ul></div>
+        <div class="cell" data-glow><h3><span lang="de">KI</span><span lang="en">AI</span> <b>[06]</b></h3><ul><li>Claude Code</li><li>Claude API</li><li>RAG · Agents</li><li>Home Assistant</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="label rv"><span class="idx">05</span><span lang="de">Kontakt</span><span lang="en">Contact</span></div>
+      <h2 class="rv" lang="de">Lass uns <br><span class="out">was bauen.</span></h2>
+      <h2 class="rv" lang="en">Let's <br><span class="out">build.</span></h2>
+      <div class="cta rv">
+        <a class="btn primary" href="https://github.com/sebastianzabel" rel="me noopener">github.com/sebastianzabel<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+        <a class="btn" href="https://github.com/getclokr" rel="noopener">github.com/getclokr<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> Sebastian Zabel</span>
+    <span lang="de">0 Tracker · 0 Cookies · 1 HTML-Datei</span><span lang="en">0 trackers · 0 cookies · 1 HTML file</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  root.classList.add("js");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ── Language: ?lang= → saved → browser → de ── */
+  const buttons = document.querySelectorAll("[data-set-lang]");
+  function setLang(lang, save) {
+    root.dataset.lang = lang; root.lang = lang;
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.setLang === lang)));
+    if (save) try { localStorage.setItem("lang", lang); } catch (e) {}
+  }
+  const ok = l => l === "de" || l === "en";
+  const fromUrl = new URLSearchParams(location.search).get("lang");
+  let saved = null; try { saved = localStorage.getItem("lang"); } catch (e) {}
+  setLang(ok(fromUrl) ? fromUrl : ok(saved) ? saved : (navigator.language || "de").toLowerCase().startsWith("de") ? "de" : "en", false);
+  buttons.forEach(b => b.addEventListener("click", () => setLang(b.dataset.setLang, true)));
+
+  /* ── HUD: solid bar after scrolling, live clock ── */
+  const hud = document.getElementById("hud");
+  const onScroll = () => hud.classList.toggle("solid", scrollY > 40);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  const clock = document.getElementById("clock");
+  const tick = () => clock.textContent = new Date().toLocaleTimeString("de-DE", { timeZone: "Europe/Berlin" });
+  tick(); setInterval(tick, 1000);
+
+  /* ── Name decode effect ── */
+  if (!reduced) {
+    const glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/<>_";
+    document.querySelectorAll("[data-scramble]").forEach((el, i) => {
+      // time-based (not frame-based) so it always resolves, even in a throttled background tab
+      const node = el.firstChild, target = node.textContent, t0 = performance.now(), delay = 150 + i * 180, step = 55;
+      const end = delay + target.length * step;
+      const id = setInterval(() => {
+        const dt = performance.now() - t0;
+        if (dt >= end) { node.textContent = target; clearInterval(id); return; }
+        node.textContent = target.split("").map((ch, k) =>
+          dt > delay + k * step ? ch : glyphs[(Math.random() * glyphs.length) | 0]).join("");
+      }, 40);
+    });
+  }
+
+  /* ── Pointer glow on cards ── */
+  document.querySelectorAll("[data-glow]").forEach(el => el.addEventListener("pointermove", e => {
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    el.style.setProperty("--my", (e.clientY - r.top) + "px");
+  }));
+
+  /* ── Reveal ── */
+  const els = document.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window && !reduced) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { rootMargin: "0px 0px -6% 0px" });
+    els.forEach(el => io.observe(el));
+  } else els.forEach(el => el.classList.add("in"));
+
+  /* ── Hero field: a slowly rotating node cluster with a perspective floor grid ── */
+  const cv = document.getElementById("field"), ctx = cv.getContext("2d");
+  let W, H, dpr, nodes = [], mx = 0, my = 0, t = 0, running = true;
+  function resize() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = W < 700 ? 70 : 140;
+    nodes = Array.from({ length: n }, () => {
+      // points on a slightly noisy sphere shell → reads as a cluster / globe
+      const u = Math.random() * 2 - 1, a = Math.random() * Math.PI * 2, r = 1 + (Math.random() - .5) * .25;
+      return { x: Math.sqrt(1 - u * u) * Math.cos(a) * r, y: u * r, z: Math.sqrt(1 - u * u) * Math.sin(a) * r, hot: Math.random() < .08 };
+    });
+  }
+  addEventListener("resize", resize); resize();
+  addEventListener("pointermove", e => { mx = e.clientX / W - .5; my = e.clientY / H - .5; }, { passive: true });
+  new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running) requestAnimationFrame(draw); }).observe(cv);
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W * (W < 760 ? .55 : .68), cy = H * .40, R = Math.min(W, H) * (W < 760 ? .34 : .36);
+    const ry = t * .12 + mx * .6, rx = -.25 + my * .3;
+    const cY = Math.cos(ry), sY = Math.sin(ry), cX = Math.cos(rx), sX = Math.sin(rx);
+
+    // floor grid
+    ctx.strokeStyle = "rgba(200,255,46,0.07)"; ctx.lineWidth = 1;
+    const hz = H * .62;
+    for (let i = -20; i <= 20; i++) { ctx.beginPath(); ctx.moveTo(W / 2 + i * 14, hz); ctx.lineTo(W / 2 + i * W * .12, H); ctx.stroke(); }
+    for (let j = 0; j < 14; j++) { const p = (j + (t * .6) % 1) / 14, y = hz + (H - hz) * p * p; ctx.globalAlpha = p; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+
+    const P = nodes.map(n => {
+      let x = n.x * cY - n.z * sY, z = n.x * sY + n.z * cY, y = n.y * cX - z * sX; z = n.y * sX + z * cX;
+      const s = 2.6 / (2.6 + z);
+      return { X: cx + x * R * s, Y: cy + y * R * s, z, s, hot: n.hot };
+    });
+    // edges between near neighbours
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const a = P[i], b = P[j], d = Math.hypot(a.X - b.X, a.Y - b.Y);
+      if (d < R * .32) {
+        const k = (1 - d / (R * .32)) * (0.5 - (a.z + b.z) / 5);
+        ctx.strokeStyle = `rgba(160,190,200,${Math.max(0, k * .35)})`;
+        ctx.beginPath(); ctx.moveTo(a.X, a.Y); ctx.lineTo(b.X, b.Y); ctx.stroke();
+      }
+    }
+    for (const p of P) {
+      const depth = Math.max(.15, .65 - p.z * .4);
+      if (p.hot) {
+        const pulse = 3 + Math.sin(t * 3 + p.X) * 1.5;
+        ctx.fillStyle = `rgba(200,255,46,${depth})`; ctx.shadowColor = "#c8ff2e"; ctx.shadowBlur = 14;
+        ctx.fillRect(p.X - pulse / 2, p.Y - pulse / 2, pulse, pulse); ctx.shadowBlur = 0;
+      } else {
+        ctx.fillStyle = `rgba(232,236,239,${depth * .8})`;
+        const s = 1.8 * p.s; ctx.fillRect(p.X - s / 2, p.Y - s / 2, s, s);
+      }
+    }
+    if (!reduced) t += 1 / 60;
+    if (running && !reduced) requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
